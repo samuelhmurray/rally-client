@@ -9,9 +9,9 @@ export function getNeeds() {
     },
   });
 }
-export function getMyNeeds() {
-  const userId = getCurrentUserId();
-  let url = `needs?userId=${userId}`;
+export function getMyNeeds(currentUserId:any) {
+  const userId = currentUserId;
+  let url = `needs/${userId}`;
   return fetchData(url, {
     headers: {
       Authorization: `Token ${localStorage.getItem("authToken")}`,

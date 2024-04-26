@@ -28,7 +28,6 @@ export const UserView = () => {
     }
   }, []); 
 
-  console.log(currentUser.id);
 
   return (
     <>
