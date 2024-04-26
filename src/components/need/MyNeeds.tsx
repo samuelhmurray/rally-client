@@ -1,7 +1,10 @@
-import React from 'react'
+import React from "react";
+import { User } from "../../data/types";
 
-export const MyNeeds = () => {
-  return (
-    <div>MyNeeds</div>
-  )
+interface Props {
+  currentUser: User;
 }
+
+export const MyNeeds: React.FC<Props> = ({currentUser}) => {
+  return <div>needs of {currentUser.id}</div>;
+};

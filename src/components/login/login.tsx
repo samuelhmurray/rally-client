@@ -6,7 +6,6 @@ export const Login = () => {
   const [username, setUsername] = useState("sam@sam.com");
   const [password, setPassword] = useState("sam");
   const [token, setToken] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -15,9 +14,10 @@ export const Login = () => {
     try {
       const response = await login({ username, password });
       const authToken = response.token;
+      const userData = response.user
       setToken(authToken);
-      setIsLoggedIn(true);
       localStorage.setItem("authToken", authToken);
+      localStorage.setItem("user", JSON.stringify(userData));
       navigate("/");
     } catch (error) {
       setError("Invalid username or password.");
