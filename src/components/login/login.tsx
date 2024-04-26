@@ -1,13 +1,39 @@
-import React from 'react';
+import React, { useState } from "react";
+import { login } from "../../data/auth";
+import { useNavigate } from "react-router-dom";
 
-export const Login: React.FC = () => {
+export const Login = () => {
+  const [username, setUsername] = useState("sam@sam.com");
+  const [password, setPassword] = useState("sam");
+  const [token, setToken] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    try {
+      const response = await login({ username, password });
+      const authToken = response.token;
+      setToken(authToken);
+      setIsLoggedIn(true);
+      localStorage.setItem("authToken", authToken);
+      navigate("/");
+    } catch (error) {
+      setError("Invalid username or password.");
+    }
+  };
+
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="bg-white p-8 rounded-lg shadow-md w-80">
         <h2 className="text-2xl font-semibold mb-4">Login</h2>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="username"
+            >
               Username
             </label>
             <input
@@ -15,10 +41,15 @@ export const Login: React.FC = () => {
               id="username"
               type="text"
               placeholder="Enter your username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
           </div>
           <div className="mb-6">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="password"
+            >
               Password
             </label>
             <input
@@ -26,6 +57,8 @@ export const Login: React.FC = () => {
               id="password"
               type="password"
               placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <button
