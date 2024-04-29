@@ -1,5 +1,4 @@
 import { fetchData } from "./fetcher";
-import { getCurrentUserId } from "./user";
 
 export function getNeeds() {
   let url = "needs";
