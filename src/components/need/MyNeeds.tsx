@@ -23,11 +23,11 @@ export const MyNeeds: React.FC<Props> = ({currentUser}) => {
     };
 
     fetchNeeds();
-  }, []);
+  }, [myNeeds]);
 
   return (
     <div>
-      <div>Needs of {currentUser.id}<ul>
+      <div>Needs of {currentUser.first_name} {currentUser.last_name}<ul>
         {myNeeds.map((need: any) => (
           <li key={need.id}>
             <div className="m-10 border-solid border-teal-300">
@@ -42,6 +42,7 @@ export const MyNeeds: React.FC<Props> = ({currentUser}) => {
           </li>
         ))}
       </ul></div>
+      
     </div>
   );
 };
