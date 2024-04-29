@@ -31,13 +31,10 @@ export const MyNeeds: React.FC<Props> = ({currentUser}) => {
         {myNeeds.map((need: any) => (
           <li key={need.id}>
             <div className="m-10 border-solid border-teal-300">
-              <h3>Description: {need.description}</h3>
-              <p>Date Posted: {need.date_posted}</p>
-              <p>Complete: {need.complete ? "Yes" : "No"}</p>
-              <p>User: {need.user.username}</p>
-              <p>Email: {need.user.email}</p>
-              <p>Community: {need.community.name}</p>
-              <p>Location: {need.community.location}</p>
+              <h3>title: {need.title}</h3>
+              <div>funds</div>
+              <div>materials</div>
+              <div>time</div>
             </div>
           </li>
         ))}
