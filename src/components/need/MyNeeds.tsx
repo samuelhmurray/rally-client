@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { MyNeed, User } from "../../data/types";
-import { getMyNeeds } from "../../data/needs";
+import { getMyNeeds, deleteNeed } from "../../data/needs";
 import { claimDonor } from "../../data/claimDonor";
 
 interface Props {
@@ -25,7 +25,7 @@ export const MyNeeds: React.FC<Props> = ({ currentUser }) => {
     };
 
     fetchNeeds();
-  }, [currentUser.id]);
+  }, [currentUser.id, myNeeds]);
 
   const renderDonorButton = (need: MyNeed, donorType: number) => {
     const donorExists = need.donors.some((donor) => donor.type.id === donorType);
@@ -55,6 +55,15 @@ export const MyNeeds: React.FC<Props> = ({ currentUser }) => {
     }
   };
 
+  const handleDelete = async (needId: number) => {
+    try {
+      await deleteNeed(needId);
+      setMyNeeds((prevNeeds) => prevNeeds.filter((need) => need.id !== needId));
+    } catch (error) {
+      console.error("Error deleting need:", error);
+    }
+  };
+
   return (
     <div>
       <div>
@@ -70,7 +79,7 @@ export const MyNeeds: React.FC<Props> = ({ currentUser }) => {
                 <div>{renderDonorButton(need, 3)}</div>
                 <div>time:</div>
                 <div>{renderDonorButton(need, 1)}</div>
-                <button className="bg-red-600 hover:bg-red-700 text-black font-bold py-2 px-4 rounded mt-5">Delete</button>
+                <button onClick={() => handleDelete(need.id)} className="bg-red-600 hover:bg-red-700 text-black font-bold py-2 px-4 rounded mt-5">Delete</button>
               </div>
             </li>
           ))}
