@@ -4,26 +4,35 @@ export interface User {
     first_name: string;
     last_name: string;
   }
-
-
-  interface UserMyNeed {
+  
+  export interface UserMyNeed {
     id: number;
     username: string;
     email: string;
-}
-
-interface Community {
+  }
+  
+  interface Community {
     id: number;
     name: string;
     location: string;
-}
-
-export interface MyNeed {
+  }
+  
+  interface Donor {
+    user: User;
+    type: {
+      id: number;
+      name: string;
+    };
+  }
+  
+  export interface MyNeed {
     id: number;
+    title: string;
     description: string;
     date_posted: string;
     complete: boolean;
     user: UserMyNeed;
     community: Community;
-}
-
+    donors: Donor[];
+  }
+  
