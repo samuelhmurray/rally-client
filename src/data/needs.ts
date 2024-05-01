@@ -35,6 +35,17 @@ export function deleteNeed(needId: number) {
     },
   });
 }
+export function editNeed(needId: number, updatedNeedData: any) {
+  let url = `needs/${needId}`;
+  return fetchData(url, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Token ${localStorage.getItem("authToken")}`,
+    },
+    body: JSON.stringify(updatedNeedData),
+  });
+}
 
 export function createNeed(needData:any) {
   let url = "needs";

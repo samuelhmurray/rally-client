@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import { getCommunities } from "../../data/community";
-import { Navigate, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 import { createNeed } from "../../data/needs";
 import { User } from "../../data/types";
 
@@ -29,16 +29,22 @@ export const AddNeed: React.FC<Props> = ({ currentUser }) => {
     fetchCommunities();
   }, []);
 
-  const handleAddNewNeed = async (event:any)=>{    event.preventDefault();const needObj = {
-    title: selectedTitle,
-    description: selectedDescription,
-    community: selectedCommunity,
-    user: currentUser.id,
+  const handleAddNewNeed = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const needObj = {
+      title: selectedTitle,
+      description: selectedDescription,
+      community: selectedCommunity,
+      user: currentUser.id,
+    };
+    createNeed(needObj)
+      .then((res) => {
+        navigate(`/mine`);
+      })
+      .catch((error) => {
+        window.alert(`Operation failed: ${error}`);
+      });
   };
-  createNeed(needObj).then((res) => {
-    navigate(`/`);
-  })
-  }
 
   return (
     <div className="m-10">
