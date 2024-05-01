@@ -18,7 +18,7 @@ export function getMyNeeds(currentUserId:number) {
   });
 }
 
-export function deleteNeed(needId:number) {
+export function deleteNeed(needId: number) {
   let url = `needs/${needId}`;
   return fetchData(url, {
     method: 'DELETE',
