@@ -20,21 +20,23 @@ export const AllNeeds = () => {
   return (
     <div>
       <h2 className="ml-10 mt-10 font-bold">All Needs</h2>
-      <ul>
-        {needs.map((need: any) => (
-          <li key={need.id}>
-            <div className="m-10 border-solid border-teal-300">
-              <h3>Description: {need.description}</h3>
-              <p>Date Posted: {need.date_posted}</p>
-              <p>Complete: {need.complete ? "Yes" : "No"}</p>
-              <p>User: {need.user.username}</p>
-              <p>Email: {need.user.email}</p>
-              <p>Community: {need.community.name}</p>
-              <p>Location: {need.community.location}</p>
-            </div>
-          </li>
-        ))}
-      </ul>
+        <ul>
+      <div className="flex flex-wrap">
+          {needs.map((need: any) => (
+            <li key={need.id}>
+              <div className="m-10 border-solid border-teal-300">
+                <h1>title: {need.title}</h1>
+                <p>Description: {need.description}</p>
+                <p>Complete: {need.complete ? "Yes" : "No"}</p>
+                <p>User: {need.user.username}</p>
+                <p>Email: {need.user.email}</p>
+                <p>Community: {need.community.name}</p>
+                <p>Location: {need.community.location}</p>
+              </div>
+            </li>
+          ))}
+      </div>
+        </ul>
     </div>
   );
 };

@@ -17,6 +17,14 @@ export function getMyNeeds(currentUserId:number) {
     },
   });
 }
+export function getNeedById(currentUserId:number, needId:number) {
+  let url = `needs/${currentUserId}/${needId}`;
+  return fetchData(url, {
+    headers: {
+      Authorization: `Token ${localStorage.getItem("authToken")}`,
+    },
+  });
+}
 
 export function deleteNeed(needId: number) {
   let url = `needs/${needId}`;
@@ -25,5 +33,17 @@ export function deleteNeed(needId: number) {
     headers: {
       Authorization: `Token ${localStorage.getItem("authToken")}`,
     },
+  });
+}
+
+export function createNeed(needData:any) {
+  let url = "needs";
+  return fetchData(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Token ${localStorage.getItem("authToken")}`,
+    },
+    body: JSON.stringify(needData),
   });
 }

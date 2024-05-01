@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { MyNeed, User, DonorNeed, Donor } from "../../data/types";
 import { getMyNeeds, deleteNeed } from "../../data/needs";
 import { claimDonor, deleteDonorNeed } from "../../data/donor";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   currentUser: User;
@@ -11,6 +12,7 @@ interface MyNeeds extends Array<MyNeed> {}
 
 export const MyNeeds: React.FC<Props> = ({ currentUser }) => {
   const [myNeeds, setMyNeeds] = useState<MyNeeds>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchNeeds();
@@ -90,7 +92,9 @@ export const MyNeeds: React.FC<Props> = ({ currentUser }) => {
       }
 
   };
-
+  const handleEditNeed = (needId: number) =>{
+    navigate(`/need/${needId}`);
+  }
   const handleUnclaim = async (donorNeedId: number | undefined) => {
     if (donorNeedId === undefined) {
       console.error("Donor need ID is undefined");
@@ -111,8 +115,9 @@ export const MyNeeds: React.FC<Props> = ({ currentUser }) => {
   return (
     <div>
       <div>
-        Needs of {currentUser.first_name} {currentUser.last_name}
-        <ul className="flex ">
+        <div className="text-xl font-bold mt-5 ml-5">
+        Needs of {currentUser.first_name} {currentUser.last_name}</div>
+        <ul className="flex flex-wrap">
           {myNeeds.map((need: MyNeed) => (
             <li key={need.id}>
               <div className="m-10 border-solid border-2 border-black p-10 h-96 w-60 rounded-md">
@@ -128,6 +133,12 @@ export const MyNeeds: React.FC<Props> = ({ currentUser }) => {
                   className="bg-red-600 hover:bg-red-700 text-black font-bold py-2 px-4 rounded mt-5"
                 >
                   Delete
+                </button>
+                <button
+                  onClick={() => handleEditNeed(need.id)}
+                  className="bg-yellow-100 hover:bg-yellow-200 text-black font-bold py-2 px-4 rounded mt-5 ml-2"
+                >
+                  Edit
                 </button>
               </div>
             </li>
