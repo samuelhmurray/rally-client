@@ -3,8 +3,8 @@ import { login } from "../../data/auth";
 import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
-  const [username, setUsername] = useState("sam@sam.com");
-  const [password, setPassword] = useState("sam");
+  const [username, setUsername] = useState("user1");
+  const [password, setPassword] = useState("Admin8*");
   const [token, setToken] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();

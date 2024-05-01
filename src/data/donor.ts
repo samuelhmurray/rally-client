@@ -15,3 +15,13 @@ export function claimDonor(data: {
     body: JSON.stringify(data),
   });
 }
+
+export function deleteDonorNeed(donor_need_id: number) {
+  const url = `donor-need/${donor_need_id}`;
+  return fetchData(url, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Token ${localStorage.getItem("authToken")}`,
+    },
+  });
+}
