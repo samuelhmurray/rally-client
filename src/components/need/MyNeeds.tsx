@@ -62,7 +62,7 @@ export const MyNeeds: React.FC<Props> = ({ currentUser }) => {
           <FontAwesomeIcon
             icon={faCheck}
             size="2x"
-            className="text-slate-800 ml-6"
+            className="text text-slate-100 ml-6"
           />
         </div>
       );
