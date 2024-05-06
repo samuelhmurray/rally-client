@@ -1,7 +1,8 @@
-import React from 'react'
-
+import React from "react";
 export const Home = () => {
   return (
-    <div>Home</div>
-  )
-}
+    <div className="flex justify-center mt-10">
+      <img src={"/logo.png"} />
+    </div>
+  );
+};

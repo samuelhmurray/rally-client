@@ -15,7 +15,7 @@ interface Props {
 
 export const EditNeed: React.FC<Props> = ({ currentUser }) => {
   const { needId } = useParams();
-  const [need, setNeed] = useState<any>(null); 
+  const [need, setNeed] = useState<any>(null);
   const [communities, setCommunities] = useState<Community[]>([]);
   const [selectedCommunity, setSelectedCommunity] = useState(Number);
   const [selectedDescription, setselectedDescription] = useState("");
@@ -38,9 +38,9 @@ export const EditNeed: React.FC<Props> = ({ currentUser }) => {
     const fetchNeed = async () => {
       const response = await getNeedById(currentUser?.id, +needId);
       setNeed(response);
-      setSelectedCommunity(+response?.community?.id)
-      setselectedDescription(response.description)
-      setselectedTitle(response.title)
+      setSelectedCommunity(+response?.community?.id);
+      setselectedDescription(response.description);
+      setselectedTitle(response.title);
     };
     fetchNeed();
   }, [currentUser.id, needId]);
@@ -48,31 +48,30 @@ export const EditNeed: React.FC<Props> = ({ currentUser }) => {
   const handEditNeed = async (event: any) => {
     event.preventDefault();
     if (!needId || isNaN(+needId)) {
-        console.error("Invalid need ID");
-        return;
-      }
-    
-      const needObj = {
-        title: selectedTitle,
-        description: selectedDescription,
-        community: selectedCommunity,
-      };
-    
-      editNeed(+needId, needObj).then((res) => {
-        navigate(`/mine`);
-      });
+      console.error("Invalid need ID");
+      return;
+    }
+
+    const needObj = {
+      title: selectedTitle,
+      description: selectedDescription,
+      community: selectedCommunity,
     };
+
+    editNeed(+needId, needObj).then((res) => {
+      navigate(`/mine`);
+    });
+  };
 
   return (
     <div>
       {need ? (
-        <div className="m-10">
-          Edit Need: {need.id} User: {currentUser.first_name}{" "}
-          {currentUser.last_name}
+        <div className="m-5">
+          <div className="text-5xl font-bold mt-5">EDIT NEED</div>
           <form>
             <div className="mt-5">
-              Title:
               <input
+                className="font-bold w-96 px-4 py-4  rounded-md"
                 value={selectedTitle || need.title}
                 onChange={(event) => {
                   setselectedTitle(event.target.value);
@@ -80,8 +79,8 @@ export const EditNeed: React.FC<Props> = ({ currentUser }) => {
               />
             </div>
             <div className="mt-2">
-              Description:
-              <input
+              <textarea
+                className="px-4 py-2 w-96 h-40 mr-10 rounded-md"
                 value={selectedDescription || need.description}
                 onChange={(event) => {
                   setselectedDescription(event.target.value);
@@ -89,14 +88,16 @@ export const EditNeed: React.FC<Props> = ({ currentUser }) => {
               />
             </div>
             <select
-              className="mt-2"
+              className="mt-2 p-4 w-96 rounded-md"
               name="community"
               onChange={(event) => {
                 setSelectedCommunity(+event.target.value);
               }}
               value={selectedCommunity}
             >
-              <option value={0}>{need?.community?.name} {need?.community?.location}</option>
+              <option value={0}>
+                {need?.community?.name} {need?.community?.location}
+              </option>
               {communities.map((community) => (
                 <option key={community.id} value={community.id}>
                   {community.name} {community.location}

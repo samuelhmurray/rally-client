@@ -3,6 +3,8 @@ import { MyNeed, User, DonorNeed, Donor } from "../../data/types";
 import { getMyNeeds, deleteNeed } from "../../data/needs";
 import { claimDonor, deleteDonorNeed } from "../../data/donor";
 import { useNavigate } from "react-router-dom";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface Props {
   currentUser: User;
@@ -39,22 +41,31 @@ export const MyNeeds: React.FC<Props> = ({ currentUser }) => {
         (donor) =>
           donor.user.id === currentUser.id && donor.type.id === donorType
       );
-  
+
     const donorNeedId = need.donor_needs.find(
       (donorNeed) => donorNeed.donor_type.id === donorType
     )?.id;
-  
+
     if (claimedByCurrentUser) {
       return (
         <button
-          className="bg-gray-600 hover:bg-gray-700 text-black font-bold py-2 px-4 rounded"
+          className=" bg-zinc-200 hover:bg-zinc-400 text-black font-bold py-2 px-4 rounded"
           onClick={() => handleUnclaim(donorNeedId)}
         >
           Unclaim
         </button>
       );
     } else if (donorExists) {
-      return <div className="h-6 w-6">✔️</div>;
+      return (
+        <div className="">
+          {" "}
+          <FontAwesomeIcon
+            icon={faCheck}
+            size="2x"
+            className="text-slate-800 ml-6"
+          />
+        </div>
+      );
     } else {
       return (
         <button
@@ -66,7 +77,6 @@ export const MyNeeds: React.FC<Props> = ({ currentUser }) => {
       );
     }
   };
-  
 
   const handleClaim = async (needId: number, donorType: number) => {
     try {
@@ -85,16 +95,15 @@ export const MyNeeds: React.FC<Props> = ({ currentUser }) => {
   };
 
   const handleDeleteNeed = async (needId: number) => {
-      await deleteNeed(needId);
-      const data = await getMyNeeds(currentUser.id);
-      if (data) {
-        setMyNeeds(data);
-      }
-
+    await deleteNeed(needId);
+    const data = await getMyNeeds(currentUser.id);
+    if (data) {
+      setMyNeeds(data);
+    }
   };
-  const handleEditNeed = (needId: number) =>{
+  const handleEditNeed = (needId: number) => {
     navigate(`/need/${needId}`);
-  }
+  };
   const handleUnclaim = async (donorNeedId: number | undefined) => {
     if (donorNeedId === undefined) {
       console.error("Donor need ID is undefined");
@@ -110,36 +119,43 @@ export const MyNeeds: React.FC<Props> = ({ currentUser }) => {
       console.error("Error unclaiming donor:", error);
     }
   };
-  
 
   return (
     <div>
       <div>
-        <div className="text-xl font-bold mt-5 ml-5">
-        Needs of {currentUser.first_name} {currentUser.last_name}</div>
+        <div className="text-5xl font-bold mt-5 ml-5">
+          NEEDS CREATED BY: {currentUser.first_name} {currentUser.last_name}
+        </div>
         <ul className="flex flex-wrap">
           {myNeeds.map((need: MyNeed) => (
             <li key={need.id}>
-              <div className="m-10 border-solid border-2 border-black p-10 h-96 w-60 rounded-md">
-                <h3 className="font-bold">Title: {need.title}</h3>
-                <div>Funds:</div>
+              <div className="m-5 border-solid border-2 border-black h-auto w-80 rounded-md shadow-md p-5 bg-gray-100"                 style={{ backgroundColor: "rgba(113, 128, 147, 0.5)" }}
+>
+                <div className="flex justify-end">
+                  <button
+                    onClick={() => handleDeleteNeed(need.id)}
+                    className="bg-red-500 hover:bg-red-700 text-black font-bold px-2 rounded"
+                  >
+                    X
+                  </button>
+                </div>
+                <div>
+                  <h3 className="font-bold text-2xl">{need.title}</h3>
+                </div>
+                <div className="mt-3">FUNDS</div>
                 <div>{renderDonorButton(need, 2)}</div>
-                <div>Materials:</div>
+                <div className="mt-3">MATERIALS</div>
                 <div>{renderDonorButton(need, 3)}</div>
-                <div>Time:</div>
+                <div className="mt-3">TIME</div>
                 <div>{renderDonorButton(need, 1)}</div>
-                <button
-                  onClick={() => handleDeleteNeed(need.id)}
-                  className="bg-red-600 hover:bg-red-700 text-black font-bold py-2 px-4 rounded mt-5"
-                >
-                  Delete
-                </button>
+                <div className="">
                 <button
                   onClick={() => handleEditNeed(need.id)}
-                  className="bg-yellow-100 hover:bg-yellow-200 text-black font-bold py-2 px-4 rounded mt-5 ml-2"
+                  className="bg-yellow-300 hover:bg-yellow-500 text-black font-bold py-2 px-6 rounded mt-5 "
                 >
                   Edit
                 </button>
+                </div>
               </div>
             </li>
           ))}

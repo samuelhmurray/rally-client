@@ -18,10 +18,10 @@ export const AllNeeds = () => {
   }, []);
 
   return (
-    <div>
-      <h2 className="ml-10 mt-10 font-bold">All Needs</h2>
-        <ul>
-      <div className="flex flex-wrap">
+    <div className="m-5">
+      <h2 className="text-5xl font-bold mt-5">ALL NEEDS</h2>
+      <ul>
+        <div className="flex flex-wrap">
           {needs.map((need: any) => (
             <li key={need.id}>
               <div className="m-10 border-solid border-teal-300">
@@ -35,8 +35,8 @@ export const AllNeeds = () => {
               </div>
             </li>
           ))}
-      </div>
-        </ul>
+        </div>
+      </ul>
     </div>
   );
 };
