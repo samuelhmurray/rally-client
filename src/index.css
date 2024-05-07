@@ -20,6 +20,7 @@ body {
   background-image: url('/Users/sammurray/workspace/rally-client/public/edit urban.jpg');
   background-repeat: no-repeat;
   background-size: cover;
+  background-attachment: fixed; /* Add this line */
   height: 100vh;
   margin: 0; 
 }

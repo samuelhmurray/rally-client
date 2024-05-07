@@ -6,6 +6,7 @@ import { MyNeeds } from "../components/need/MyNeeds";
 import { AllNeeds } from "../components/need/AllNeeds";
 import { AddNeed } from "../components/need/AddNeed";
 import { EditNeed } from "../components/need/EditNeed";
+import { NeedDetail } from "../components/need/NeedDetail";
 
 interface User {
   id: number;
@@ -39,6 +40,7 @@ export const UserView = () => {
         <Route path="/all" element={<AllNeeds />} />
         <Route path="/add" element={<AddNeed currentUser={currentUser}/>} />
         <Route path="/need/:needId" element={<EditNeed currentUser={currentUser}/>} />
+        <Route path="/:needId" element={<NeedDetail currentUser={currentUser}/>} />
       </Routes>
     </>
   );

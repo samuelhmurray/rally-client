@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { User } from "../../data/types";
-import { editNeed, getNeedById } from "../../data/needs";
+import { editNeed, getNeedByUserAndNeedId } from "../../data/needs";
 import { getCommunities } from "../../data/community";
 
 interface Community {
@@ -36,7 +36,7 @@ export const EditNeed: React.FC<Props> = ({ currentUser }) => {
     if (!currentUser) return;
 
     const fetchNeed = async () => {
-      const response = await getNeedById(currentUser?.id, +needId);
+      const response = await getNeedByUserAndNeedId(currentUser?.id, +needId);
       setNeed(response);
       setSelectedCommunity(+response?.community?.id);
       setselectedDescription(response.description);
@@ -88,7 +88,7 @@ export const EditNeed: React.FC<Props> = ({ currentUser }) => {
               />
             </div>
             <select
-              className="mt-2 p-4 w-96 rounded-md"
+              className=" p-4 w-96 rounded-md"
               name="community"
               onChange={(event) => {
                 setSelectedCommunity(+event.target.value);
@@ -110,7 +110,7 @@ export const EditNeed: React.FC<Props> = ({ currentUser }) => {
                 onClick={handEditNeed}
                 className="bg-teal-300 hover:bg-teal-500 text-black font-bold py-2 px-4 rounded"
               >
-                Submit
+                SUBMIT
               </button>
             </div>
           </form>{" "}

@@ -1,36 +1,40 @@
 import React, { useEffect, useState } from "react";
-import { MyNeed, User, DonorNeed, Donor } from "../../data/types";
-import { getMyNeeds, deleteNeed } from "../../data/needs";
-import { claimDonor, deleteDonorNeed } from "../../data/donor";
-import { Link, useNavigate } from "react-router-dom";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { User, MyNeed } from "../../data/types";
+import { useNavigate, useParams } from "react-router-dom";
+import { deleteNeed, getMyNeeds, getNeedByNeedId } from "../../data/needs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { claimDonor, deleteDonorNeed } from "../../data/donor";
 
 interface Props {
   currentUser: User;
 }
-
 interface MyNeeds extends Array<MyNeed> {}
 
-export const MyNeeds: React.FC<Props> = ({ currentUser }) => {
-  const [myNeeds, setMyNeeds] = useState<MyNeeds>([]);
+
+export const NeedDetail: React.FC<Props> = ({ currentUser }) => {
+  const { needId } = useParams<{ needId: string }>();
+  const [need, setNeed] = useState<MyNeed | null>(null);
   const navigate = useNavigate();
+  const [myNeeds, setMyNeeds] = useState<MyNeeds>([]);
+
 
   useEffect(() => {
-    fetchNeeds();
-  }, [currentUser]);
+    const fetchNeed = async () => {
+      if (!needId || !currentUser) return;
 
-  const fetchNeeds = async () => {
-    try {
-      const data = await getMyNeeds(currentUser.id);
-      if (data) {
-        setMyNeeds(data);
+      try {
+        const response = await getNeedByNeedId(+needId);
+        setNeed(response);
+      } catch (error) {
+        console.error("Error fetching need:", error);
       }
-    } catch (error) {
-      console.error("Error fetching needs:", error);
-    }
-  };
+    };
 
+    fetchNeed();
+  }, [currentUser, needId]);
+
+  
   const renderDonorButton = (need: MyNeed, donorType: number) => {
     const donorExists = need.donors.some(
       (donor) => donor.type.id === donorType
@@ -94,16 +98,6 @@ export const MyNeeds: React.FC<Props> = ({ currentUser }) => {
     }
   };
 
-  const handleDeleteNeed = async (needId: number) => {
-    await deleteNeed(needId);
-    const data = await getMyNeeds(currentUser.id);
-    if (data) {
-      setMyNeeds(data);
-    }
-  };
-  const handleEditNeed = (needId: number) => {
-    navigate(`/need/${needId}`);
-  };
   const handleUnclaim = async (donorNeedId: number | undefined) => {
     if (donorNeedId === undefined) {
       console.error("Donor need ID is undefined");
@@ -120,48 +114,29 @@ export const MyNeeds: React.FC<Props> = ({ currentUser }) => {
     }
   };
 
+  if (!need) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div>
+      <div className="text-5xl font-bold justify-center flex mt-5">
+        {need.title}
+      </div>
       <div>
-        <div className="text-5xl font-bold mt-5 ml-5">
-          NEEDS CREATED BY: {currentUser.first_name} {currentUser.last_name}
+        <div
+          className="text-2xl m-5 border-solid border-2 border-black rounded-md shadow-md p-5 bg-gray-100"
+          style={{ backgroundColor: "rgba(113, 128, 147, 0.7)" }}
+        >
+          {need.description}
         </div>
-        <ul className="flex flex-wrap">
-          {myNeeds.map((need: MyNeed) => (
-            <li key={need.id}>
-              <div
-                className="m-5 border-solid border-2 border-black  h-98 w-80 rounded-md shadow-md p-5 bg-gray-100"
-                style={{ backgroundColor: "rgba(113, 128, 147, 0.5)" }}
-              >
-                <div className="flex justify-end">
-                  <button
-                    onClick={() => handleDeleteNeed(need.id)}
-                    className="bg-red-500 hover:bg-red-700 text-black font-bold px-2 rounded"
-                  >
-                    X
-                  </button>
-                </div>
-                <div>
-                  <Link to={`/${need.id}`}>
-                    <button className="font-bold text-2xl hover:text-gray-200">{need.title}</button>
-                  </Link>
-                </div>
-                <div className="mt-3">FUNDS</div>
+        <div className="mt-3">FUNDS</div>
                 <div>{renderDonorButton(need, 2)}</div>
                 <div className="mt-3">MATERIALS</div>
                 <div>{renderDonorButton(need, 3)}</div>
                 <div className="mt-3">TIME</div>
                 <div>{renderDonorButton(need, 1)}</div>
-                <button
-                  onClick={() => handleEditNeed(need.id)}
-                  className="bg-yellow-300 hover:bg-yellow-500 text-black font-bold py-2 px-6 rounded mt-5 "
-                >
-                  Edit
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
+                
       </div>
     </div>
   );

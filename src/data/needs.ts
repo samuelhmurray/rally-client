@@ -17,8 +17,17 @@ export function getMyNeeds(currentUserId:number) {
     },
   });
 }
-export function getNeedById(currentUserId:number, needId:number) {
+export function getNeedByUserAndNeedId(currentUserId:number, needId:number) {
   let url = `needs/${currentUserId}/${needId}`;
+  return fetchData(url, {
+    headers: {
+      Authorization: `Token ${localStorage.getItem("authToken")}`,
+    },
+  });
+}
+
+export function getNeedByNeedId(needId:number) {
+  let url = `/needId/${needId}`;
   return fetchData(url, {
     headers: {
       Authorization: `Token ${localStorage.getItem("authToken")}`,
