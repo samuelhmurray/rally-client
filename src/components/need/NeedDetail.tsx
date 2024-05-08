@@ -11,13 +11,11 @@ interface Props {
 }
 interface MyNeeds extends Array<MyNeed> {}
 
-
 export const NeedDetail: React.FC<Props> = ({ currentUser }) => {
   const { needId } = useParams<{ needId: string }>();
   const [need, setNeed] = useState<MyNeed | null>(null);
   const navigate = useNavigate();
   const [myNeeds, setMyNeeds] = useState<MyNeeds>([]);
-
 
   useEffect(() => {
     const fetchNeed = async () => {
@@ -32,9 +30,8 @@ export const NeedDetail: React.FC<Props> = ({ currentUser }) => {
     };
 
     fetchNeed();
-  }, [currentUser, needId]);
+  }, [currentUser, needId, myNeeds]);
 
-  
   const renderDonorButton = (need: MyNeed, donorType: number) => {
     const donorExists = need.donors.some(
       (donor) => donor.type.id === donorType
@@ -125,18 +122,28 @@ export const NeedDetail: React.FC<Props> = ({ currentUser }) => {
       </div>
       <div>
         <div
-          className="text-2xl m-5 border-solid border-2 border-black rounded-md shadow-md p-5 bg-gray-100"
+          className="text-2xl m-5 border-solid border-2 border-black rounded-md shadow-md p-5"
           style={{ backgroundColor: "rgba(113, 128, 147, 0.7)" }}
         >
           {need.description}
         </div>
-        <div className="mt-3">FUNDS</div>
-                <div>{renderDonorButton(need, 2)}</div>
-                <div className="mt-3">MATERIALS</div>
-                <div>{renderDonorButton(need, 3)}</div>
-                <div className="mt-3">TIME</div>
-                <div>{renderDonorButton(need, 1)}</div>
-                
+        <div
+          className="flex flex-wrap m-5 justify-center border-solid border-2 border-black shadow-md rounded-md p-5"
+          style={{ backgroundColor: "rgba(113, 128, 147, 0.7)" }}
+        >
+          <div className="w-full md:w-1/3 flex flex-col items-center">
+            <div className="mb-3 font-bold">FUNDS</div>
+            <div className="mb-2">{renderDonorButton(need, 2)}</div>
+          </div>
+          <div className="w-full md:w-1/3 flex flex-col items-center">
+            <div className="mb-3 font-bold">MATERIALS</div>
+            <div className="mb-2">{renderDonorButton(need, 3)}</div>
+          </div>
+          <div className="w-full md:w-1/3 flex flex-col items-center">
+            <div className="mb-3 font-bold">TIME</div>
+            <div className="mb-2">{renderDonorButton(need, 1)}</div>
+          </div>
+        </div>
       </div>
     </div>
   );
