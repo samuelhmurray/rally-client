@@ -1,8 +1,12 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Rally",
+  "name": "Rally",
   "icons": [
- 
+    {
+      "src": "logo-48x48.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    }
   ],
   "start_url": ".",
   "display": "standalone",

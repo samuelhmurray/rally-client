@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import { getCommunities } from "../../data/community";
-import {useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { createNeed } from "../../data/needs";
 import { User } from "../../data/types";
 
@@ -47,35 +47,36 @@ export const AddNeed: React.FC<Props> = ({ currentUser }) => {
   };
 
   return (
-    <div className="m-10">
-      <div>AddNeed</div>
+    <div className="m-5">
+      <div className="text-5xl font-bold mt-5">ADD NEED</div>
       <form>
         <div className="mt-5">
-          Title:
           <input
-          placeholder="title"
-          onChange={(event) => {
-            setselectedTitle(event.target.value);
-          }}/>
+            className="font-bold w-96 px-4 py-4  rounded-md"
+            placeholder="TITLE"
+            onChange={(event) => {
+              setselectedTitle(event.target.value);
+            }}
+          />
         </div>
         <div className="mt-2">
-          Description:
-          <input 
-          placeholder="description"
-          onChange={(event) => {
-            setselectedDescription(event.target.value);
-          }}
-        />
+          <textarea
+            className="px-4 py-2 w-96 h-40 mr-10 rounded-md"
+            placeholder="DESCRIPTION"
+            onChange={(event) => {
+              setselectedDescription(event.target.value);
+            }}
+          />
         </div>
         <select
-          className="mt-2"
-          name="community"
+          className="p-4 w-96 rounded-md"
+          name="COMMUNITY"
           onChange={(event) => {
             setSelectedCommunity(+event.target.value);
           }}
         >
           <option id="0" value={0}>
-            Community
+            COMMUNITY
           </option>
           {communities.map((community) => (
             <option key={community.id} value={community.id}>
@@ -84,9 +85,12 @@ export const AddNeed: React.FC<Props> = ({ currentUser }) => {
           ))}
         </select>
         <div className="mt-2">
-        <button onClick={handleAddNewNeed} className="bg-teal-300 hover:bg-teal-500 text-black font-bold py-2 px-4 rounded">
-          Submit
-        </button>
+          <button
+            onClick={handleAddNewNeed}
+            className="bg-teal-300 hover:bg-teal-500 text-black font-bold py-2 px-4 rounded"
+          >
+            SUBMIT
+          </button>
         </div>
       </form>
     </div>
