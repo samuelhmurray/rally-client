@@ -31,6 +31,11 @@ export const Nav = () => {
               NEW
             </button>
           </Link>
+          <Link to="/map">
+            <button className={`mr-28 font-bold text-6xl flex justify-center items-center text-teal-300 hover:text-teal-700 w-6 h-6 p-8 ${location.pathname === '/add' ? 'underline' : ''}`}>
+              MAP
+            </button>
+          </Link>
         </div>
         <div>
           <Link to="/login">
