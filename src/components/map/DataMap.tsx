@@ -6,7 +6,6 @@ import iconRetinaUrl from 'leaflet/dist/images/marker-icon-2x.png';
 import iconUrl from 'leaflet/dist/images/marker-icon.png';
 import shadowUrl from 'leaflet/dist/images/marker-shadow.png';
 
-// Create a custom icon
 const customIcon = new L.Icon({
   iconRetinaUrl,
   iconUrl,
@@ -19,21 +18,16 @@ const customIcon = new L.Icon({
 });
 
 export const DataMap = () => {
-  // Coordinates for downtown Chattanooga
   const downtownChattanoogaCoords = { lat: 35.0456, lng: -85.3097 };
 
   return (
-    <div className="h-screen">
-      <MapContainer center={downtownChattanoogaCoords} zoom={13} style={{ height: '100%', width: '100%' }}>
+    <div className="h-screen flex justify-center pt-10">
+      <MapContainer center={downtownChattanoogaCoords} zoom={15} style={{ height: '70%', width: '70%' }}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
-        {/* Use the custom icon */}
         <Marker position={downtownChattanoogaCoords} icon={customIcon}>
-          <Popup>
-            Downtown Chattanooga
-          </Popup>
         </Marker>
       </MapContainer>
     </div>
